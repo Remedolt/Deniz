@@ -3,96 +3,226 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitHub Deneme Sayfası</title>
+  <title>Deniz | Kişisel Web Sayfası</title>
+  <!-- Google Fonts & Font Awesome İkonları -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(22, 27, 34, 0.75);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --primary: #58a6ff;
+      --accent: #2ea043;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     body {
-      background-color: #0d1117;
-      color: #c9d1d9;
+      background-color: var(--bg-color);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(88, 166, 255, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(46, 160, 67, 0.08) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
+      padding: 24px;
     }
 
-    .card {
-      background-color: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 32px;
-      max-width: 480px;
+    .container {
+      max-width: 580px;
       width: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 40px 32px;
       text-align: center;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
 
+    /* Profil Görseli */
+    .avatar-wrapper {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+    }
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 20px rgba(88, 166, 255, 0.35);
+      transition: transform 0.3s ease;
+    }
+
+    .avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .status-dot {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 16px;
+      height: 16px;
+      background-color: var(--accent);
+      border: 3px solid #161b22;
+      border-radius: 50%;
+    }
+
+    /* Başlık ve Açıklama */
     h1 {
-      color: #58a6ff;
-      margin-bottom: 12px;
-      font-size: 1.6rem;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #ffffff, var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    p {
-      color: #8b949e;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-
-    .btn {
-      background-color: #238636;
-      color: #ffffff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
+    .tagline {
+      color: var(--primary);
       font-size: 0.95rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
     }
 
-    .btn:hover {
-      background-color: #2ea043;
+    .bio {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 28px;
     }
 
-    .status-badge {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 4px 12px;
+    /* Yetenek / İlgi Alanı Etiketleri */
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: #c9d1d9;
+      padding: 6px 14px;
       border-radius: 20px;
-      background-color: #1f2937;
-      color: #3fb950;
-      font-size: 0.85rem;
-      border: 1px solid #238636;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* Butonlar & Linkler */
+    .links-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      padding: 14px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.25s ease;
+    }
+
+    .link-item i {
+      font-size: 1.2rem;
+      color: var(--primary);
+      transition: transform 0.25s ease;
+    }
+
+    .link-item:hover {
+      background: rgba(88, 166, 255, 0.1);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .link-item:hover i {
+      transform: translateX(4px);
+    }
+
+    /* Alt Kısım (Footer) */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <h1>🚀 Merhaba GitHub!</h1>
-    <p>Bu sayfa GitHub Pages denemesi için hazırlanmış temel bir HTML5 şablonudur.</p>
-    
-    <button class="btn" onclick="testClick()">Tıkla ve Test Et</button>
-    
-    <div id="status" class="status-badge">Durum: Yayında</div>
-  </div>
+  <div class="container">
+    <!-- Profil Avatarı -->
+    <div class="avatar-wrapper">
+      <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&auto=format&fit=crop&q=80" alt="Anonim Profil" class="avatar">
+      <div class="status-dot" title="Aktif"></div>
+    </div>
 
-  <script>
-    function testClick() {
-      const status = document.getElementById('status');
-      status.innerText = "JavaScript sorunsuz çalışıyor! ✅";
-      status.style.borderColor = "#58a6ff";
-      status.style.color = "#58a6ff";
-    }
-  </script>
+    <!-- Başlık & Bio -->
+    <h1>Deniz</h1>
+    <div class="tagline">Yazılım & Teknoloji Meraklısı</div>
+    <p class="bio">
+      Dijital dünyada yeni teknolojiler, web geliştirme ve açık kaynaklı projeler üzerine çalışıyorum.
+    </p>
+
+    <!-- İlgi Alanı Etiketleri -->
+    <div class="badges">
+      <span class="badge"><i class="fab fa-html5"></i> Web Dev</span>
+      <span class="badge"><i class="fas fa-terminal"></i> Open Source</span>
+      <span class="badge"><i class="fas fa-shield-alt"></i> Cyber Security</span>
+      <span class="badge"><i class="fas fa-laptop-code"></i> Coding</span>
+    </div>
+
+    <!-- Linkler -->
+    <div class="links-grid">
+      <a href="https://github.com/Remedolt" target="_blank" class="link-item">
+        <span><i class="fab fa-github" style="margin-right: 10px;"></i> GitHub Profilim</span>
+        <i class="fas fa-arrow-right"></i>
+      </a>
+      <a href="#" class="link-item">
+        <span><i class="fas fa-folder-open" style="margin-right: 10px;"></i> Projelerim</span>
+        <i class="fas fa-arrow-right"></i>
+      </a>
+      <a href="mailto:ornek@email.com" class="link-item">
+        <span><i class="fas fa-envelope" style="margin-right: 10px;"></i> İletişime Geç</span>
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <footer>
+      &copy; 2026 Deniz. Tüm hakları saklıdır.
+    </footer>
+  </div>
 
 </body>
 </html>
