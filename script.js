@@ -12,26 +12,244 @@ document.addEventListener('DOMContentLoaded', () => {
     initTypewriter();
     initSlider();
     initVideoFallbacks();
+    initSpaceScenes();
 });
 
-/* ---------- Graceful video fallback (any <video poster>) ---------- */
-// If a background/demo video can't load (offline, host blocked, etc.), swap it
-// for its poster image so the page never shows a broken player.
+/* ---------- Space scene (canvas starfield, used as a self-hosted "video" background) ---------- */
+// Built as a canvas animation instead of an embedded video file so it never depends on an
+// external host (nothing to cache-bust, nothing that can 404) — always renders the same way.
+function initSpaceScenes() {
+    document.querySelectorAll('[data-space-scene]').forEach(createSpaceScene);
+}
+
+function createSpaceScene(canvas) {
+    const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const shootingStarsEnabled = canvas.dataset.shootingStars === 'true';
+    const planetEnabled = canvas.dataset.planet === 'true';
+
+    let width = 0, height = 0, dpr = 1;
+    let stars = [];
+    let planet = null;
+    let shootingStar = null;
+    let nextShootAt = 0;
+
+    function resize() {
+        const rect = canvas.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = Math.max(rect.width, 1);
+        height = Math.max(rect.height, 1);
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        buildStars();
+        if (planetEnabled) buildPlanet();
+    }
+
+    function buildStars() {
+        const count = Math.min(220, Math.max(70, Math.round((width * height) / 4200)));
+        const brandHues = ['240,57,155', '139,47,224', '46,92,240'];
+        stars = Array.from({ length: count }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            r: Math.random() * 1.3 + 0.35,
+            phase: Math.random() * Math.PI * 2,
+            speed: Math.random() * 0.02 + 0.008,
+            hue: Math.random() < 0.15 ? brandHues[Math.floor(Math.random() * brandHues.length)] : '255,255,255',
+            glow: Math.random() < 0.08,
+        }));
+    }
+
+    // A simple 2D "fake sphere" — a lit gradient disc plus crater freckles
+    // whose horizontal position drifts and whose opacity falls off near the
+    // limb, imitating slow rotation without any real 3D math.
+    function buildPlanet() {
+        const r = Math.min(width, height) * 0.52;
+        planet = {
+            cx: width * 0.84,
+            cy: height * 0.8,
+            r,
+            rotation: Math.random() * Math.PI * 2,
+            craters: Array.from({ length: 30 }, () => ({
+                u: Math.random(),
+                v: (Math.random() - 0.5) * 0.75,
+                size: Math.random() * 0.05 + 0.018,
+                shade: Math.random() * 0.35 + 0.12,
+            })),
+        };
+    }
+
+    function drawPlanet() {
+        if (!planetEnabled || !planet) return;
+        const p = planet;
+        p.rotation += 0.0006;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.cx, p.cy, p.r, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+
+        const g = ctx.createRadialGradient(
+            p.cx - p.r * 0.35, p.cy - p.r * 0.35, p.r * 0.08,
+            p.cx, p.cy, p.r * 1.05
+        );
+        g.addColorStop(0, '#eb9c74');
+        g.addColorStop(0.35, '#c96a45');
+        g.addColorStop(0.68, '#8f3f28');
+        g.addColorStop(1, '#3d1a11');
+        ctx.fillStyle = g;
+        ctx.fillRect(p.cx - p.r, p.cy - p.r, p.r * 2, p.r * 2);
+
+        p.craters.forEach(c => {
+            const u = (c.u + p.rotation / (Math.PI * 2)) % 1;
+            const angle = u * Math.PI * 2;
+            const foreshorten = Math.max(0, Math.sin(angle));
+            if (foreshorten < 0.12) return;
+            const x = p.cx + Math.cos(angle) * p.r * 0.86;
+            const y = p.cy + c.v * p.r;
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(25,10,6,${c.shade * foreshorten})`;
+            ctx.arc(x, y, Math.max(0.6, c.size * p.r * foreshorten), 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        ctx.restore();
+
+        ctx.beginPath();
+        ctx.arc(p.cx, p.cy, p.r * 1.03, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(240,120,80,0.22)';
+        ctx.lineWidth = Math.max(2, p.r * 0.035);
+        ctx.stroke();
+    }
+
+    function drawNebula() {
+        const g1 = ctx.createRadialGradient(width * 0.22, height * 0.28, 0, width * 0.22, height * 0.28, Math.max(width, height) * 0.6);
+        g1.addColorStop(0, 'rgba(139,47,224,0.18)');
+        g1.addColorStop(1, 'rgba(139,47,224,0)');
+        ctx.fillStyle = g1;
+        ctx.fillRect(0, 0, width, height);
+
+        const g2 = ctx.createRadialGradient(width * 0.82, height * 0.7, 0, width * 0.82, height * 0.7, Math.max(width, height) * 0.55);
+        g2.addColorStop(0, 'rgba(46,92,240,0.16)');
+        g2.addColorStop(1, 'rgba(46,92,240,0)');
+        ctx.fillStyle = g2;
+        ctx.fillRect(0, 0, width, height);
+    }
+
+    function drawStars(animated) {
+        stars.forEach(st => {
+            if (animated) st.phase += st.speed;
+            const alpha = animated ? 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(st.phase)) : 0.75;
+            ctx.beginPath();
+            if (st.glow) {
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = `rgba(${st.hue},0.9)`;
+            } else {
+                ctx.shadowBlur = 0;
+            }
+            ctx.fillStyle = `rgba(${st.hue},${alpha})`;
+            ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        ctx.shadowBlur = 0;
+    }
+
+    function maybeSpawnShootingStar(time) {
+        if (!shootingStarsEnabled) return;
+        if (!nextShootAt) nextShootAt = time + 2500 + Math.random() * 3500;
+        if (!shootingStar && time > nextShootAt) {
+            const angle = Math.PI / 4 + (Math.random() * 0.3 - 0.15);
+            shootingStar = {
+                x: Math.random() * width * 0.55,
+                y: Math.random() * height * 0.35,
+                vx: Math.cos(angle),
+                vy: Math.sin(angle),
+                len: 0,
+                maxLen: 80 + Math.random() * 60,
+                life: 0,
+                maxLife: 40,
+            };
+        }
+    }
+
+    function drawShootingStar() {
+        if (!shootingStar) return;
+        const s = shootingStar;
+        const speed = 9;
+        s.life++;
+        s.x += s.vx * speed;
+        s.y += s.vy * speed;
+        s.len = Math.min(s.maxLen, s.len + speed);
+        const tailX = s.x - s.vx * s.len;
+        const tailY = s.y - s.vy * s.len;
+        const grad = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
+        grad.addColorStop(0, 'rgba(255,255,255,0.95)');
+        grad.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(tailX, tailY);
+        ctx.stroke();
+
+        if (s.life > s.maxLife || s.x > width + 60 || s.y > height + 60) {
+            shootingStar = null;
+            nextShootAt = 0;
+        }
+    }
+
+    function tick(time) {
+        ctx.clearRect(0, 0, width, height);
+        drawNebula();
+        drawStars(true);
+        drawPlanet();
+        maybeSpawnShootingStar(time);
+        drawShootingStar();
+        requestAnimationFrame(tick);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    if (reduceMotion) {
+        ctx.clearRect(0, 0, width, height);
+        drawNebula();
+        drawStars(false);
+        drawPlanet();
+    } else {
+        requestAnimationFrame(tick);
+    }
+}
+
+/* ---------- Graceful video fallback (kept for any future <video> use) ---------- */
+// If the real footage can't load (offline, host blocked, slow connection, unsupported
+// format), swap it for the animated starfield instead of leaving a broken video box —
+// so the background is always something, never a broken-media icon.
 function attachVideoFallback(video) {
-    video.addEventListener('error', () => {
-        const poster = video.getAttribute('poster');
-        if (!poster) return;
-        const img = document.createElement('img');
-        img.className = video.className;
-        img.src = poster;
-        img.alt = 'Önizleme';
-        img.loading = 'lazy';
-        video.replaceWith(img);
-    }, true);
+    let swapped = false;
+    const swap = () => {
+        if (swapped) return;
+        swapped = true;
+        const canvas = document.createElement('canvas');
+        canvas.className = video.className;
+        canvas.setAttribute('data-space-scene', '');
+        canvas.setAttribute('data-shooting-stars', 'true');
+        video.replaceWith(canvas);
+        createSpaceScene(canvas);
+    };
+
+    video.addEventListener('error', swap, true);
+    video.querySelectorAll('source').forEach(src => src.addEventListener('error', swap, true));
+    // Belt-and-braces: if nothing has started playing after a few seconds
+    // (host unreachable, request just hanging), fall back too.
+    setTimeout(() => {
+        if (video.readyState === 0) swap();
+    }, 6000);
 }
 
 function initVideoFallbacks() {
-    document.querySelectorAll('video[poster]').forEach(attachVideoFallback);
+    document.querySelectorAll('video').forEach(attachVideoFallback);
 }
 
 /* ---------- Mobile nav toggle ---------- */

@@ -41,10 +41,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-video-bg">
-            <video autoplay muted loop playsinline preload="metadata"
-                poster="https://picsum.photos/seed/deniz-hero/1600/900">
-                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-            </video>
+            <canvas class="space-scene" data-space-scene data-shooting-stars="true" data-planet="true"></canvas>
         </div>
         <div class="hero-content">
             <div class="orb-container">
@@ -73,9 +70,6 @@
             <h1 class="hero-title">Deniz</h1>
             <p class="hero-subtitle">Yazılım & Teknoloji Meraklısı</p>
             <p class="hero-role-line">Ben bir <span class="type-target"></span><span class="cursor">&nbsp;</span></p>
-            <p class="hero-description">
-                Dijital dünyada yeni teknolojiler, web geliştirme ve açık kaynaklı projeler üzerine çalışıyorum. Modern arayüzler kuruyor, topluluklara katkı sağlıyor ve güvenlik üzerine araştırmalar yapıyorum.
-            </p>
 
             <div class="skill-badges">
                 <span class="badge">💻 Web Dev</span>
@@ -83,16 +77,6 @@
                 <span class="badge">🛡️ Cyber Security</span>
                 <span class="badge">⚡ Coding</span>
             </div>
-
-            <div class="cta-buttons">
-                <a href="projects.html" class="btn btn-primary">Projelerimi Keşfet</a>
-                <a href="contact.html" class="btn btn-secondary">Bilgi Al</a>
-            </div>
-        </div>
-
-        <div class="scroll-cue">
-            <span>Kaydır</span>
-            <span class="scroll-line"></span>
         </div>
     </section>
 
@@ -123,17 +107,14 @@
         <div class="container">
             <div class="slider">
                 <div class="slide is-active" data-type="video">
-                    <video class="slide-media" autoplay muted loop playsinline preload="metadata"
-                        poster="https://picsum.photos/seed/deniz-video/1200/700">
-                        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-                    </video>
+                    <canvas class="slide-media space-scene" data-space-scene data-shooting-stars="true" data-planet="true"></canvas>
                     <div class="slide-caption">
                         <div class="slide-caption-text">
-                            <span class="slide-tag">Canlı Demo</span>
-                            <h3>Kod Üzerinde Çalışırken</h3>
-                            <p>Günlük iş akışımdan kısa bir kesit — fikirden çalışan ürüne.</p>
+                            <span class="slide-tag">Mars</span>
+                            <h3>Sınırsız Merak</h3>
+                            <p>Mars'ı keşfetmek gibi — yeni teknolojileri, fikirleri ve olasılıkları keşfediyorum.</p>
                         </div>
-                        <span class="slide-video-badge"><span class="rec-dot"></span>Video</span>
+                        <span class="slide-video-badge"><span class="rec-dot"></span>Canlı</span>
                     </div>
                 </div>
 
