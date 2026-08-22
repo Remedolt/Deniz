@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deniz — Yazılım & Teknoloji Meraklısı</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta name="description" content="Deniz — web geliştirme, açık kaynak ve siber güvenlik üzerine çalışan yazılım meraklısı.">
+    <link rel="stylesheet" href="style.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    <canvas id="fx-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-dot"></span>
+                Deniz
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Ana Sayfa</a></li>
+                <li><a href="projects.html">Projelerim</a></li>
+                <li><a href="about.html">Hakkımda</a></li>
+                <li><a href="contact.html" class="cta-link">Bilgi Al</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-video-bg">
+            <canvas class="space-scene" data-space-scene data-shooting-stars="true" data-planet="true"></canvas>
+        </div>
+        <div class="hero-content">
+            <div class="orb-container">
+                <div class="orb-ring"></div>
+                <svg class="gradient-orb" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="orbGradient" cx="35%" cy="35%">
+                            <stop offset="0%" style="stop-color:#EC4899;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#7B2CBF;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#2563EB;stop-opacity:1" />
+                        </radialGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <circle cx="100" cy="100" r="95" fill="url(#orbGradient)" filter="url(#glow)"/>
+                    <path d="M 80 60 Q 120 40, 140 80 T 100 160" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none"/>
+                </svg>
+                <div class="orb-glow"></div>
+            </div>
+
+            <h1 class="hero-title">Deniz</h1>
+            <p class="hero-subtitle">Yazılım & Teknoloji Meraklısı</p>
+            <p class="hero-role-line">Ben bir <span class="type-target"></span><span class="cursor">&nbsp;</span></p>
+
+            <div class="skill-badges">
+                <span class="badge">💻 Web Dev</span>
+                <span class="badge">🔓 Open Source</span>
+                <span class="badge">🛡️ Cyber Security</span>
+                <span class="badge">⚡ Coding</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech marquee -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-item"><span class="dot"></span>JavaScript</div>
+            <div class="marquee-item"><span class="dot"></span>TypeScript</div>
+            <div class="marquee-item"><span class="dot"></span>React</div>
+            <div class="marquee-item"><span class="dot"></span>Vue</div>
+            <div class="marquee-item"><span class="dot"></span>Node.js</div>
+            <div class="marquee-item"><span class="dot"></span>Python</div>
+            <div class="marquee-item"><span class="dot"></span>Cyber Security</div>
+            <div class="marquee-item"><span class="dot"></span>Open Source</div>
+            <div class="marquee-item"><span class="dot"></span>JavaScript</div>
+            <div class="marquee-item"><span class="dot"></span>TypeScript</div>
+            <div class="marquee-item"><span class="dot"></span>React</div>
+            <div class="marquee-item"><span class="dot"></span>Vue</div>
+            <div class="marquee-item"><span class="dot"></span>Node.js</div>
+            <div class="marquee-item"><span class="dot"></span>Python</div>
+            <div class="marquee-item"><span class="dot"></span>Cyber Security</div>
+            <div class="marquee-item"><span class="dot"></span>Open Source</div>
+        </div>
+    </div>
+
+    <!-- Showcase Slider -->
+    <section class="slider-section">
+        <div class="container">
+            <div class="slider">
+                <div class="slide is-active" data-type="video">
+                    <canvas class="slide-media space-scene" data-space-scene data-shooting-stars="true" data-planet="true"></canvas>
+                    <div class="slide-caption">
+                        <div class="slide-caption-text">
+                            <span class="slide-tag">Mars</span>
+                            <h3>Sınırsız Merak</h3>
+                            <p>Mars'ı keşfetmek gibi — yeni teknolojileri, fikirleri ve olasılıkları keşfediyorum.</p>
+                        </div>
+                        <span class="slide-video-badge"><span class="rec-dot"></span>Canlı</span>
+                    </div>
+                </div>
+
+                <div class="slide" data-type="image">
+                    <img class="slide-media" src="https://picsum.photos/seed/deniz-web/1200/700" alt="Web geliştirme çalışma alanı" loading="lazy" onerror="this.style.display='none'">
+                    <div class="slide-caption">
+                        <div class="slide-caption-text">
+                            <span class="slide-tag">Web Development</span>
+                            <h3>Modern Arayüzler İnşa Ediyorum</h3>
+                            <p>React ve Vue ile hızlı, responsive ve kullanıcı odaklı uygulamalar geliştiriyorum.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide" data-type="image">
+                    <img class="slide-media" src="https://picsum.photos/seed/deniz-opensource/1200/700" alt="Açık kaynak topluluk çalışması" loading="lazy" onerror="this.style.display='none'">
+                    <div class="slide-caption">
+                        <div class="slide-caption-text">
+                            <span class="slide-tag">Open Source</span>
+                            <h3>Toplulukla Birlikte Üretiyorum</h3>
+                            <p>Açık kaynaklı projelere katkı sağlıyor, bilgi ve deneyimi paylaşıyorum.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide" data-type="image">
+                    <img class="slide-media" src="https://picsum.photos/seed/deniz-security/1200/700" alt="Siber güvenlik araştırması" loading="lazy" onerror="this.style.display='none'">
+                    <div class="slide-caption">
+                        <div class="slide-caption-text">
+                            <span class="slide-tag">Cyber Security</span>
+                            <h3>Güvenliği Önceliklendiriyorum</h3>
+                            <p>Zafiyet analizleri, penetration testing ve güvenlik araştırmaları yapıyorum.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slider-controls">
+                    <button class="slider-arrow prev" type="button" aria-label="Önceki slayt">‹</button>
+                    <button class="slider-arrow next" type="button" aria-label="Sonraki slayt">›</button>
+                </div>
+                <div class="slider-dots"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise -->
+    <section class="featured-section">
+        <div class="container">
+            <h2 class="section-title reveal">Uzmanlık Alanlarım</h2>
+            <p class="section-subtitle reveal">Yazılım geliştirmede odaklandığım ana alanlar</p>
+
+            <div class="projects-grid">
+                <div class="project-card reveal">
+                    <div class="project-icon">📱</div>
+                    <h3>Web Development</h3>
+                    <p>Modern React ve Vue teknolojileri ile responsive, performanslı web uygulamaları geliştiriyorum.</p>
+                    <a href="projects.html" class="link-arrow">Detaylı Gör →</a>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-icon">🔓</div>
+                    <h3>Open Source</h3>
+                    <p>Açık kaynaklı projelere katkıda bulunuyor, topluluk ile birlikte geliştiriyorum.</p>
+                    <a href="projects.html" class="link-arrow">Detaylı Gör →</a>
+                </div>
+
+                <div class="project-card reveal">
+                    <div class="project-icon">🛡️</div>
+                    <h3>Cyber Security</h3>
+                    <p>Web güvenliği, penetration testing ve güvenlik araştırmaları üzerine çalışıyorum.</p>
+                    <a href="projects.html" class="link-arrow">Detaylı Gör →</a>
+                </div>
+            </div>
+
+            <div class="view-all reveal">
+                <a href="projects.html" class="btn btn-secondary">Tüm Projeler</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card reveal">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Tamamlanan Proje</div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Teknoloji Stack</div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Yıl Deneyim</div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Öğrenme Tutkusu</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title reveal">Referanslar</h2>
+            <p class="section-subtitle reveal">Birlikte çalıştığım kişiler ne diyor</p>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>"Deniz ile çalışmak harikaydı — hem teknik derinliği hem de iletişim kalitesi projeyi zamanında ve eksiksiz teslim etmemizi sağladı."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><img src="https://i.pravatar.cc/100?img=47" alt="Elif Aydın" loading="lazy" onerror="this.style.display='none'"></div>
+                        <div>
+                            <div class="author-name">Elif Aydın</div>
+                            <div class="author-role">Ürün Yöneticisi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>"Güvenlik denetimi sırasında bulduğu açıklar ve önerdiği çözümler sayesinde sistemimizi çok daha güvenli hale getirdik."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><img src="https://i.pravatar.cc/100?img=13" alt="Mert Kaya" loading="lazy" onerror="this.style.display='none'"></div>
+                        <div>
+                            <div class="author-name">Mert Kaya</div>
+                            <div class="author-role">CTO, Startup</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>"Açık kaynak projemize yaptığı katkılar hem kod kalitesi hem de dokümantasyon açısından örnek nitelikteydi."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><img src="https://i.pravatar.cc/100?img=32" alt="Selin Yıldız" loading="lazy" onerror="this.style.display='none'"></div>
+                        <div>
+                            <div class="author-name">Selin Yıldız</div>
+                            <div class="author-role">Proje Sorumlusu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section>
+        <div class="container">
+            <div class="cta-section reveal">
+                <h2>Yeni Bir Proje Mi Başlatmak İstiyorsunuz?</h2>
+                <p>Harika fikrinizi hayata geçirmek için birlikte çalışabiliriz.</p>
+                <a href="contact.html" class="btn btn-primary">Bilgi Al</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Deniz</h4>
+                    <p>Yazılım & Teknoloji Meraklısı. Web geliştirme, açık kaynak ve siber güvenlik üzerine çalışıyorum.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Linkler</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="projects.html">Projeler</a></li>
+                        <li><a href="about.html">Hakkımda</a></li>
+                        <li><a href="contact.html">Bilgi Al</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Sosyal Ağlar</h4>
+                    <ul>
+                        <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>
+                        <li><a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a></li>
+                        <li><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Deniz. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js?v=3"></script>
+</body>
+</html>
